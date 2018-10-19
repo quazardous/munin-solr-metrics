@@ -21,7 +21,10 @@ composer global require quazardous/munin-solr-metrics
 Or `git clone`:
 
 ```bash
+cd /opt
 git clone git@github.com:quazardous/munin-solr-metrics.git
+cd munin-solr-metrics/
+composer install
 ```
 
 ## Usage

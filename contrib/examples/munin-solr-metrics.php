@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'default' => [
+    'http' => [
         'solr_metrics_query' => 'http://localhost:8983/solr/admin/metrics',
         //'solr_auth' => 'solr:password',
         'graphs' => [
