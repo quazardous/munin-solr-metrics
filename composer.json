@@ -1,0 +1,27 @@
+{
+	"name" : "quazardous/munin-solr-metrics",
+	"type" : "library",
+    "description" : "SolR Metrics Statistics Munin Plugin",
+    "license" : "MIT",
+    "authors" : [{
+            "name" : "Quazardous",
+            "email" : "berliozdavid@gmail.com",
+            "role" : "Developer"
+        }
+    ],
+	"autoload" : {
+		"psr-4" : {
+			"Quazardous\\" : "src/"
+		}
+	},
+	"require" : {
+		"php": ">=7.2.0",
+		"symfony/property-access": "^4.1"
+	},
+	"bin": ["bin/solr_metrics"],
+	"extra": {
+        "branch-alias": {
+            "dev-master": "1.0.x-dev"
+        }
+    }
+}
