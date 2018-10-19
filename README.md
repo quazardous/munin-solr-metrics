@@ -10,7 +10,7 @@ https://lucene.apache.org/solr/guide/7_5/metrics-reporting.html
 
 ```bash
 cd /opt
-git clone git@github.com:quazardous/munin-solr-metrics.git
+git clone https://github.com/quazardous/munin-solr-metrics.git
 cd munin-solr-metrics/
 composer install
 ```
