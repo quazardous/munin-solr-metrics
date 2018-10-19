@@ -6,16 +6,22 @@ https://lucene.apache.org/solr/guide/7_5/metrics-reporting.html
 
 ## Installation
 
-Local:
+`composer` local:
 
 ```bash
 composer require quazardous/munin-solr-metrics
 ```
 
-Or global
+Or `composer global`:
 
 ```bash
 composer global require quazardous/munin-solr-metrics
+```
+
+Or `git clone`:
+
+```bash
+git clone git@github.com:quazardous/munin-solr-metrics.git
 ```
 
 ## Usage
