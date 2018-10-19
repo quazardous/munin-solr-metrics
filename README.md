@@ -6,7 +6,16 @@ https://lucene.apache.org/solr/guide/7_5/metrics-reporting.html
 
 ## Installation
 
-`composer` local:
+`git clone` (prefered):
+
+```bash
+cd /opt
+git clone git@github.com:quazardous/munin-solr-metrics.git
+cd munin-solr-metrics/
+composer install
+```
+
+Or `composer` local:
 
 ```bash
 composer require quazardous/munin-solr-metrics
@@ -18,28 +27,21 @@ Or `composer global`:
 composer global require quazardous/munin-solr-metrics
 ```
 
-Or `git clone`:
-
-```bash
-cd /opt
-git clone git@github.com:quazardous/munin-solr-metrics.git
-cd munin-solr-metrics/
-composer install
-```
+NB: Using `composer` as `root` is discouraged !
 
 ## Usage
 
 Soft link into munin plugin:
 
 ```bash
-(cd /etc/munin/plugins/; ln -s ~/.composer/vendor/bin/munin_solr_metrics solr_metrics)
+(cd /etc/munin/plugins/; ln -s /opt/munin-solr-metrics/bin/munin_solr_metrics solr_metrics)
 ```
 This will use the default profile.
 
 You can use a specific profile:
 
 ```bash
-(cd /etc/munin/plugins/; ln -s ~/.composer/vendor/bin/munin_solr_metrics solr_metrics_my_profile)
+(cd /etc/munin/plugins/; ln -s /opt/munin-solr-metrics/bin/munin_solr_metrics solr_metrics_my_profile)
 ```
 This will use the profile `my_profile` in the config file (see below).
 
