@@ -95,6 +95,15 @@ return [
                     '2xx.1minRate' => [
                         'metric' => 'solr.jetty|org.eclipse.jetty.server.handler.DefaultHandler.2xx-responses|1minRate',
                     ],
+                    'error' => [
+                        'metric' => [
+                            // if metric is an array, metrics will be aggregated
+                            'solr.jetty|org.eclipse.jetty.server.handler.DefaultHandler.4xx-responses|count',
+                            'solr.jetty|org.eclipse.jetty.server.handler.DefaultHandler.5xx-responses|count',
+                        ],
+                        // by default metrics are added together but you can specify your own function, metrics are passed by arg in order
+                        // 'metric_aggregate' => function ($metric1, $metric2) { return $metric1 + $metric1; }, 
+                    ],
                 ],
                 // Any other attributes will be added to the munin graph config.
                 'graph_category' => 'solr',

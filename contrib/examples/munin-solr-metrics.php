@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'http' => [
+    'default' => [
         'solr_metrics_query' => 'http://localhost:8983/solr/admin/metrics',
         //'solr_auth' => 'solr:password',
         'graphs' => [
@@ -32,6 +32,35 @@ return [
                     '5xx' => [
                         'metric' => 'solr.jetty|org.eclipse.jetty.server.handler.DefaultHandler.5xx-responses|count',
                         'draw' => 'AREASTACK',
+                        'type' => 'DERIVE',
+                    ],
+                ],
+            ],
+            'update' => [
+                'graph_category' => 'solr',
+                'graph_title' => 'Update Handler',
+                'fields' => [
+                    'auto_commits' => [
+                        'metric' => 'solr.core.my_collection.shard1.replica_n1|UPDATE.updateHandler.autoCommits',
+                        'type' => 'DERIVE',
+                    ],
+                    'commits' => [
+                        'metric' => 'solr.core.my_collection.shard1.replica_n1|UPDATE.updateHandler.commits|count',
+                        'type' => 'DERIVE',
+                    ],
+                    'adds' => [
+                        'metric' => 'solr.core.my_collection.shard1.replica_n1|UPDATE.updateHandler.cumulativeAdds|count',
+                        'type' => 'DERIVE',
+                    ],
+                    'errors' => [
+                        'metric' => 'solr.core.my_collection.shard1.replica_n1|UPDATE.updateHandler.cumulativeErrors|count',
+                        'type' => 'DERIVE',
+                    ],
+                    'deletes' => [
+                        'metric' => [
+                            'solr.core.my_collection.shard1.replica_n1|UPDATE.updateHandler.deletesById',
+                            'solr.core.my_collection.shard1.replica_n1|UPDATE.updateHandler.deletesByQuery',
+                         ],
                         'type' => 'DERIVE',
                     ],
                 ],

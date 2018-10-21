@@ -54,10 +54,11 @@ class SolrMetrics
                     }
                     $fieldConfig += [
                         'label' => $fieldName,
+                        'metric_aggregate' => null,
                     ];
                     if (!is_array($fieldConfig)) throw new \RuntimeException(sprintf('Something is wrong in profile %s graph %s field %s', $this->profile, $graphName, $fieldName));
-                    $fieldConfig['attributes'] = array_udiff_assoc($fieldConfig, ['metric' => true], function ($a, $b) { return 0; });
-                    $fieldConfig = array_uintersect_assoc($fieldConfig, ['attributes' => true, 'metric' => true], function ($a, $b) { return 0; });
+                    $fieldConfig['attributes'] = array_udiff_assoc($fieldConfig, ['metric' => true, 'metric_aggregate' => true], function ($a, $b) { return 0; });
+                    $fieldConfig = array_uintersect_assoc($fieldConfig, ['attributes' => true, 'metric' => true, 'metric_aggregate' => true], function ($a, $b) { return 0; });
                 }
                 $graphConfig['attributes'] = array_udiff_assoc($graphConfig, ['fields' => true], function ($a, $b) { return 0; });
                 $graphConfig = array_uintersect_assoc($graphConfig, ['attributes' => true, 'fields' => true], function ($a, $b) { return 0; });
@@ -103,9 +104,10 @@ class SolrMetrics
         foreach ($this->config[$this->profile]['graphs'] as $graphName => $graphConfig) {
             $fields = [];
             foreach ($graphConfig['fields'] as $fieldName => $fieldConfig) {
-                $metric = $fieldConfig['metric'];
-                $fields[$fieldName] = new GraphField(function() use ($metric) {
-                    return $this->getSolrMetric($metric);
+                $metric = (array)$fieldConfig['metric'];
+                $aggregate = $fieldConfig['metric_aggregate'];
+                $fields[$fieldName] = new GraphField(function() use ($metric, $aggregate) {
+                    return $this->getSolrMetric($metric, $aggregate);
                 }, $fieldConfig['attributes']);
             }
             $mg->addGraph($graphName, new Graph($graphConfig['attributes'], $fields));
@@ -130,14 +132,32 @@ class SolrMetrics
         $this->loadConfig();
     }
     
-    protected function getSolrMetric(string $metric)
+    /**
+     * Get a metric from the list of given metrics
+     * @param array $metrics
+     * @param callable $aggregate
+     * @return number
+     */
+    protected function getSolrMetric(array $metrics, callable $aggregate = null)
     {
         $this->pollSolrMetrics();
-        $tokens = explode('|', $metric);
-        $propertyPath = '';
-        foreach ($tokens as &$token) $token = '[' . $token . ']';
-        $propertyPath = implode('', $tokens);
-        return $this->getPropertyAccessor()->getValue($this->solrMetrics, '[metrics]' . $propertyPath);
+        // general case is to aggregate a list of metrics
+        
+        $values = [];
+        foreach ($metrics as $metric) {
+            $tokens = explode('|', $metric);
+            $propertyPath = '';
+            foreach ($tokens as &$token) $token = '[' . $token . ']';
+            $propertyPath = implode('', $tokens);
+            $values[] = $this->getPropertyAccessor()->getValue($this->solrMetrics, '[metrics]' . $propertyPath);
+            unset($tokens);
+            unset($token);
+        }
+        
+        // by default metrics are added together
+        if (empty($aggregate)) $aggregate = function () { return array_sum(func_get_args()); };
+        
+        return call_user_func_array($aggregate, $values);
     }
     
     /**
