@@ -102,7 +102,7 @@ return [
                             'solr.jetty|org.eclipse.jetty.server.handler.DefaultHandler.5xx-responses|count',
                         ],
                         // by default metrics are added together but you can specify your own function, metrics are passed by arg in order
-                        // 'metric_aggregate' => function ($metric1, $metric2) { return $metric1 + $metric1; }, 
+                        // 'metric_aggregate' => function ($metric1, $metric2) { return $metric1 + $metric2; }, 
                     ],
                 ],
                 // Any other attributes will be added to the munin graph config.
