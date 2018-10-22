@@ -58,8 +58,8 @@ return [
                     ],
                     'deletes' => [
                         'metric' => [
-                            'solr.core.my_collection.shard1.replica_n1|UPDATE.updateHandler.deletesById',
-                            'solr.core.my_collection.shard1.replica_n1|UPDATE.updateHandler.deletesByQuery',
+                            'solr.core.my_collection.shard1.replica_n1|UPDATE.updateHandler.deletesById|count',
+                            'solr.core.my_collection.shard1.replica_n1|UPDATE.updateHandler.deletesByQuery|count',
                          ],
                         'type' => 'DERIVE',
                     ],
